@@ -1,8 +1,6 @@
 # Laravel 8 - Futsal booking Berbasis Web
 
-## Screenshots
 
-![preview img](/preview.png)
 
 ## Run Locally
 
