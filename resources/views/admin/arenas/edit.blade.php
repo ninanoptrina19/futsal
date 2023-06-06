@@ -36,14 +36,13 @@
                         <label for="price">{{ __('Harga per Jam') }}</label>
                         <input type="number" class="form-control" id="price" placeholder="{{ __('price') }}" name="price" value="{{ old('price', $arena->price) }}" />
                     </div>
-                    <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
-                        <label for="photo">Photo</label>
-                        <div class="needsclick dropzone" id="photo-dropzone">
-
+                    <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}">
+                        <label for="image">image</label>
+                        <input type="file" name="image" id="image" value="{{$arena->image}}" class="form-control">
                         </div>
-                        @if($errors->has('photo'))
+                        @if($errors->has('image'))
                             <em class="invalid-feedback">
-                                {{ $errors->first('photo') }}
+                                {{ $errors->first('image') }}
                             </em>
                         @endif
                     </div>

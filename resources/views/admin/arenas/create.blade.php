@@ -35,16 +35,9 @@
                         <label for="price">{{ __('Harga per Jam') }}</label>
                         <input type="number" class="form-control" id="price" placeholder="{{ __('price') }}" name="price" value="{{ old('price') }}" />
                     </div>
-                    <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
-                        <label for="photo">Photo</label>
-                        <div class="needsclick dropzone" id="photo-dropzone">
-
-                        </div>
-                        @if($errors->has('photo'))
-                            <em class="invalid-feedback">
-                                {{ $errors->first('photo') }}
-                            </em>
-                        @endif
+                    <div class="form-group">
+                        <label for="photo">Photo:</label>
+                        <input type="file" name="image" id="photo" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="status">{{ __('Status') }}</label>

@@ -49,11 +49,8 @@
                                 <td>{{ $arena->number }}</td>
                                 <td>Rp{{ number_format($arena->price,2,',','.') }}</td>
                                 <td>
-                                    @if($arena->photo)
-                                        <a href="{{ $arena->photo->getUrl() }}" target="_blank">
-                                            <img src="{{ $arena->photo->getUrl() }}" width="50px" height="50px">
-                                        </a>
-                                    @endif
+                                            <img src="{{asset('/public/posts/'.$arena->image)}}" width="50px" height="50px">
+                                       
                                 </td>
                                 <td>{{ $arena->status }}</td>
                                 <td>

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Arena;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\Admin\ArenaRequest;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 
 class ArenaController extends Controller
 {
@@ -39,19 +40,25 @@ class ArenaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArenaRequest $request)
-    {
-        $arena = Arena::create($request->validated());
+    public function store(Request $request)
+{
+    $data = $request->all();
         
-        if ($request->input('photo', false)) {
-            $arena->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+        
+        if ($image = $request->file('image')) {
+            $path = 'public/posts';
+            $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($path, $namaGambar);
+            $data['image'] = $namaGambar;
         }
+        
+        $data = Arena::create($data);
 
-        return redirect()->route('admin.arenas.index')->with([
-            'message' => 'successfully created !',
-            'alert-type' => 'success'
-        ]);
-    }
+    return redirect()->route('admin.arenas.index')->with([
+        'message' => 'Successfully created!',
+        'alert-type' => 'success'
+    ]);
+}
 
     /**
      * Display the specified resource.
@@ -82,17 +89,24 @@ class ArenaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ArenaRequest $request,Arena $arena)
+    public function update(Request $request,$id)
     {
-        $arena->update($request->validated());
+        $arena = Arena::findOrFail($id);
 
-        if ($request->input('photo', false)) {
-            if (!$arena->photo || $request->input('photo') !== $arena->photo->file_name) {
-                $arena->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
-            }
-        } elseif ($arena->photo) {
-            $arena->photo->delete();
+    if ($image = $request->file('image')) {
+        $path = 'public/posts';
+
+        // Menghapus gambar lama jika ada
+        if ($arena->image) {
+            Storage::delete($path . '/' . $arena->image);
         }
+
+        $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        $image->move($path, $namaGambar);
+        $data['image'] = $namaGambar;
+    }
+
+    $arena->update($data);
 
         return redirect()->route('admin.arenas.index')->with([
             'message' => 'successfully updated !',

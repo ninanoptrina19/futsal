@@ -72,13 +72,13 @@
                 @foreach($arenas as $arena)      
                     <div class="col-lg-4 mb-5">
                         <div class="card" style="width: 18rem;">
-                        @if($arena->photo)
-                            <img src="{{ $arena->photo->getUrl() }}" class="card-img-top" alt="...">
-                        @endif
+                            <img src="{{asset('/public/posts/'. $arena->image)}}" style="height: 200px; object-fit:constain;" class="card-img-top" alt="...">
+                        
                         <div class="card-body">
                             <h5 class="card-title">Nomer Lapangan : {{ $arena->number }}</h5>
                             <p class="card-text">Harga : Rp{{ number_format($arena->price,2,',','.') }} / Jam</p>
-                            <a href="{{ route('booking', ['number' => $arena->number])  }}" class="btn btn-primary">Booking</a>
+                            <a href="{{ Auth::check() ? route('booking', ['number' => $arena->number]) : route('login') }}" class="btn btn-primary">Booking</a>
+
                         </div>
                         </div>
                     </div>
